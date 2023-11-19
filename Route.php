@@ -17,7 +17,7 @@ namespace Symfony\Component\Routing;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Tobias Schultze <http://tobion.de>
  */
-class Route implements \Serializable
+class Route
 {
     private $path = '/';
     private $host = '';
@@ -65,9 +65,9 @@ class Route implements \Serializable
     /**
      * {@inheritdoc}
      */
-    public function serialize()
+    public function __serialize()
     {
-        return serialize([
+        return [
             'path' => $this->path,
             'host' => $this->host,
             'defaults' => $this->defaults,
@@ -77,15 +77,14 @@ class Route implements \Serializable
             'methods' => $this->methods,
             'condition' => $this->condition,
             'compiled' => $this->compiled,
-        ]);
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
+    public function __unserialize($data)
     {
-        $data = unserialize($serialized);
         $this->path = $data['path'];
         $this->host = $data['host'];
         $this->defaults = $data['defaults'];
